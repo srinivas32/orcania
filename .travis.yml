@@ -30,7 +30,30 @@ jobs:
     - env: LABEL=cppcheck
       script:
         - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 .
-script:
+        # added power support arch ppc64le
+    - env: LABEL=linux-gcc
+      compiler: gcc
+      arch: ppc64le
+    - env: LABEL=lnux-clang
+      compiler: clang
+      arch: ppc64le
+    - env: LABEL=osx
+      os: osx
+      arch: ppc64le
+      addons:
+        homebrew:
+          packages:
+          - check
+          - pkg-config
+          update: true
+      script:
+        - mkdir build && cd build
+        - cmake -DBUILD_ORCANIA_TESTING=on ..
+        - make test
+    - env: LABEL=cppcheck
+      arch: ppc64le
+      script:
+        - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 .script:
   - pushd test
   - make test
   - popd
